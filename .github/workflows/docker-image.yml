@@ -17,5 +17,18 @@ jobs:
     steps:
     - name: Checkout sources
       uses: actions/checkout@v4
+    - name: Run Hadolint on Dockerfile
+      uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: Dockerfile
+        failure-threshold: error
+        ignore: DL3008
     - name: Build the Docker image
-      run: docker build . --tag ${{ github.event.repository.name }}:$(date +%s)
+      run: docker build . --tag ${{ github.event.repository.name }}:scan
+    - name: Run Dockle on the image
+      uses: goodwithtech/dockle-action@v0.1.2
+      with:
+        image: ${{ github.event.repository.name }}:scan
+        format: list
+        ignore: CIS-DI-0001,CIS-DI-0010
+        exit-code: 1
