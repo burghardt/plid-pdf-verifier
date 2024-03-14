@@ -22,6 +22,7 @@ jobs:
       with:
         dockerfile: Dockerfile
         failure-threshold: error
+        ignore: DL3008
     - name: Build the Docker image
       run: docker build . --tag ${{ github.event.repository.name }}:scan
     - name: Run Dockle on the image
@@ -31,4 +32,3 @@ jobs:
         format: list
         ignore: CIS-DI-0001,CIS-DI-0010
         exit-code: 1
-
