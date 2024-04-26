@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS builder
+FROM ubuntu:24.04 AS builder
 RUN apt-get update && \
     apt-get -y --no-install-recommends install \
         wget \
@@ -9,7 +9,7 @@ RUN apt-get update && \
 COPY build-plid-nss.bash /usr/local/bin/build-plid-nss.bash
 RUN /usr/local/bin/build-plid-nss.bash ./plid-nss
 
-FROM ubuntu:22.04 AS verifier
+FROM ubuntu:24.04 AS verifier
 RUN apt-get update && \
     apt-get -y --no-install-recommends install \
         poppler-utils && \
