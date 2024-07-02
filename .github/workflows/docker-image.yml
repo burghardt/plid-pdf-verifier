@@ -35,4 +35,4 @@ jobs:
         sudo dpkg -i dockle.deb && rm dockle.deb
     - name: Run Dockle on the image
       run: |
-        dockle --exit-code 1 --format list --ignore CIS-DI-0001,CIS-DI-0010 ${{ github.event.repository.name }}:scan
+        dockle --exit-code 1 --format list --ignore CIS-DI-0001 ${{ github.event.repository.name }}:scan
