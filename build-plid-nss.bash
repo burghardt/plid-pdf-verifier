@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -x
-set -euo pipefail
+set -euCo pipefail
 
 CA_URL='http://repo.e-dowod.gov.pl/certs'
 CA_NAME='PLID_Root_CA.cer'

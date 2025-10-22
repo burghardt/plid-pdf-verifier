@@ -1,22 +1,16 @@
-FROM ubuntu:24.04 AS builder
-RUN apt-get update && \
-    apt-get -y --no-install-recommends install \
+FROM alpine:3.22.2 AS builder
+RUN apk add --no-cache \
+        bash \
         wget \
         openssl \
-        libnss3-tools && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+        nss-tools
 COPY build-plid-nss.bash /usr/local/bin/build-plid-nss.bash
-RUN /usr/local/bin/build-plid-nss.bash ./plid-nss
+RUN bash /usr/local/bin/build-plid-nss.bash ./plid-nss
 
-FROM ubuntu:24.04 AS verifier
-RUN apt-get update && \
-    apt-get -y --no-install-recommends install \
-        poppler-utils && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
+FROM alpine:3.22.2 AS verifier
+RUN apk add --no-cache \
+        poppler-utils
 COPY --from=builder ./plid-nss /var/lib/plid-nss
-COPY plid-verifier.bash /usr/bin/plid-verifier.bash
-RUN chmod +x /usr/bin/plid-verifier.bash
-ENTRYPOINT ["/usr/bin/plid-verifier.bash"]
+COPY plid-verifier.sh /usr/bin/plid-verifier.sh
+RUN chmod +x /usr/bin/plid-verifier.sh
+ENTRYPOINT ["/usr/bin/plid-verifier.sh"]
