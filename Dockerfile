@@ -1,4 +1,4 @@
-FROM alpine:3.23.2 AS builder
+FROM alpine:3.23.3 AS builder
 RUN apk add --no-cache \
         bash \
         wget \
@@ -7,7 +7,7 @@ RUN apk add --no-cache \
 COPY build-plid-nss.bash /usr/local/bin/build-plid-nss.bash
 RUN bash /usr/local/bin/build-plid-nss.bash ./plid-nss
 
-FROM alpine:3.23.2 AS verifier
+FROM alpine:3.23.3 AS verifier
 RUN apk add --no-cache \
         poppler-utils
 COPY --from=builder ./plid-nss /var/lib/plid-nss
